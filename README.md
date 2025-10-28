@@ -23,7 +23,7 @@ Runs on Raspberry Pi with local recognition, visual annotations, and flexible no
 
 ---
 
-#" **Camera with Face Recognition**
+# **Camera with Face Recognition**
 
 A video streaming platform built with a Raspberry Pi Zero W streams video via a Flask server to an external device, where a face recognition algorithm built with dlib processes it.
 
@@ -75,4 +75,7 @@ The Raspberry Pi runs Raspbian OS. A Python virtual environment is used for inst
 
 ## **Results**
 The compact system mounts on a door nicely. Whenever there is a person outside the door the user gets a pop-up containing the name of the person if known, otherwise a photo can be captured and the person added to known people. The system has very hiogh accuracy.
+
+<img width="1670" height="646" alt="first_demo" src="https://github.com/user-attachments/assets/55b782cf-e756-4d59-abbd-fa4566a85ad3" />
+
 
