@@ -1,25 +1,34 @@
-# PiVision-core
+# PiVision
 
-**Modular edge-vision core** for Raspberry Pi: camera capture, MJPEG/HTTP streaming, pluggable inference, and flexible notifications. Powers the PiVision suite (Face, NestWatch).
+Smart, low-power **facial recognition and alerting system**
+Runs on Raspberry Pi with local recognition, visual annotations, and flexible notifications (desktop or MQTT).
 
 <p>
-  <img alt="status" src="https://img.shields.io/badge/status-alpha-orange" />
+  <img alt="status" src="https://img.shields.io/badge/status-beta-green" />
   <img alt="python" src="https://img.shields.io/badge/Python-3.10%2B-blue" />
-  <img alt="platform" src="https://img.shields.io/badge/Platform-Raspberry%20Pi-1abc9c" />
+  <img alt="platform" src="https://img.shields.io/badge/Platform-Raspberry%20Pi_4%2FZero_W-1abc9c" />
   <img alt="license" src="https://img.shields.io/badge/License-MIT-black" />
 </p>
 
-## Features
-- **Camera → Stream**: Zero-copy frames to MJPEG (Flask) or raw frames to subscribers
-- **Inference plugins**: drop-in modules implement `BaseModel` (sync or threaded)
-- **Notification adapters**: desktop notify, MQTT, webhooks (implement `BaseNotifier`)
-- **Config-first**: YAML config for device, transport, model, notifier
-- **Headless friendly**: systemd-ready; logs to stdout/JSON
+---
 
-## Architecture
+##  Highlights
+
+-   Real-time **face recognition** using `face_recognition` + `dlib`
+-   **Notifications** via `notify-send` or MQTT (configurable)
+-   Reusable inference logic compatible with **PiVision-core**
+-   Cooldown & distance-based scoring (no spam, more signal)
+-   Automatic **snapshots of unknown faces**
+-   Designed as a **drop-in plugin** for the PiVision ecosystem
+
+---
+
+##  Architecture
+
 ```mermaid
 flowchart LR
-  Cam[Camera] --> Core[PiVision-core]
-  Core -->|MJPEG| HTTP[HTTP Stream]
-  Core -->|Frames| Model[Inference Plugin]
-  Model -->|Events| Notifier[Notifier Adapter]
+  Cam[Camera / USB / CSI] --> Core[PiVision-core]
+  Core -->|Frame| FaceModel[PiVision-face Model]
+  FaceModel -->|Events| Notifier[Notifier (MQTT/Desktop)]
+  Notifier --> User((User Alerts))
+  FaceModel -->|Snapshots| Disk[(events/ folder)]
